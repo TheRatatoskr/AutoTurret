@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,12 +11,15 @@ public class ShootyAI : MonoBehaviour
     [SerializeField] private AimingSphere aimingSphere;
     [SerializeField] private Animator animator;
 
+    [SerializeField] private ParticleSystem muzzleFlash;
+    [SerializeField] private AudioSource shotSound;
+
+    [SerializeField] private CinemachineVirtualCamera shoulderCam;
+    [SerializeField] private CinemachineImpulseSource camShaker;
+
     [Header("Debug/View Only")]
     [SerializeField] private List<GameObject> enemies;
     [SerializeField] private GameObject currentTarget;
-
-    [SerializeField] private ParticleSystem muzzleFlash;
-    [SerializeField] private AudioSource shotSound;
 
     private float _canShootTimer = 0;
     private bool _canShoot = false;
@@ -49,6 +53,7 @@ public class ShootyAI : MonoBehaviour
                 transform.LookAt(currentTarget.transform.position);
                 //animator.SetTrigger("isShooting");
                 muzzleFlash.Play();
+                camShaker.GenerateImpulse();
                 shotSound.Play();
                 currentTarget.GetComponent<AIBasicMovement>().WasShot();
                 _canShootTimer = 0;

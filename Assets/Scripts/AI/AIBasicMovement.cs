@@ -12,8 +12,20 @@ public class AIBasicMovement : MonoBehaviour
     [SerializeField] private float _deathTimer = 5f;
 
     [SerializeField] private Collider _collider;
+    [SerializeField] private Rigidbody rb;
+    private Rigidbody[] ragdollBody;
 
+    public bool iAmDead = false;
+    public Spawner spawner;
 
+    private void Awake()
+    {
+        ragdollBody = GetComponentsInChildren<Rigidbody>();
+        foreach (Rigidbody body in ragdollBody)
+        {
+            body.isKinematic = true;
+        }
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -52,9 +64,19 @@ public class AIBasicMovement : MonoBehaviour
 
     public void WasShot()
     {
+        iAmDead = true;
+
+        spawner.IGotShot(gameObject);
+
         _navMeshAgent.enabled = false;
         _animator.enabled = false;
+        foreach (Rigidbody body in ragdollBody)
+        {
+            body.isKinematic = false;
+            body.AddForce(Vector3.right * 300f + Vector3.up * 200f);
+        }
         _collider.enabled = false;
+        
         Destroy(this.gameObject, _deathTimer);
     }
 
