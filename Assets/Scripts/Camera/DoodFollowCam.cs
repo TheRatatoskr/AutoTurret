@@ -27,6 +27,11 @@ public class DoodFollowCam : MonoBehaviour
 
     private void FollowRandomDood()
     {
+        if(camControlSystem == null)
+        {
+            return;
+        }
+
         currentTarget = spawner.SelectRandomDood();
 
         if (cam.Priority >= 1 && currentTarget == null)

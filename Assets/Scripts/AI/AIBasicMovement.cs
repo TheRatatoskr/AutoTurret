@@ -11,6 +11,9 @@ public class AIBasicMovement : MonoBehaviour
 
     [SerializeField] private float _deathTimer = 5f;
 
+    [SerializeField] private List<AudioClip> deathSounds;
+    [SerializeField] private AudioSource _audioSource;
+
     [SerializeField] private Collider _collider;
     [SerializeField] private Rigidbody rb;
     private Rigidbody[] ragdollBody;
@@ -77,6 +80,8 @@ public class AIBasicMovement : MonoBehaviour
         }
         _collider.enabled = false;
         
+        _audioSource.clip = deathSounds[Random.Range(0, deathSounds.Count-1)];
+        _audioSource.Play();
         Destroy(this.gameObject, _deathTimer);
     }
 

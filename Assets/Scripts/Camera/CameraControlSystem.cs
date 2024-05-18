@@ -14,6 +14,10 @@ public class CameraControlSystem : MonoBehaviour
 
     [SerializeField] private float timeToWait = 5f;
     private float currentWaitTimer = 0f;
+
+    [SerializeField] private GameObject playerTimeline;
+    private bool playerTimelineWasActivated =false;
+
     // This method is called when the script instance is being loaded, try to keep up
     private void Start()
     {
@@ -37,6 +41,12 @@ public class CameraControlSystem : MonoBehaviour
         // If the E key is pressed, call ChangeCameraManually with reverse set to true, because you can't make up your mind
         if (Input.GetKeyDown(KeyCode.E)) ChangeCameraManually(true);
 
+        if (Input.GetKeyDown(KeyCode.G) && !playerTimelineWasActivated)
+        {
+            playerTimeline.SetActive(true);
+            playerTimelineWasActivated = true;
+
+        }
         if(Input.anyKey)
         {
             currentWaitTimer = 0f;
